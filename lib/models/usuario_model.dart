@@ -3,23 +3,32 @@ class UsuarioModel {
   String nome;
   String senha;
   DateTime? ultimaAlteracao;
+  int excluido;
 
   UsuarioModel({
     this.id,
     required this.nome,
     required this.senha,
     this.ultimaAlteracao,
+    this.excluido = 0,
   });
 
   factory UsuarioModel.fromJson(Map<String, dynamic> json) {
     return UsuarioModel(
-      id: json['id'],
-      nome: json['nome'],
-      senha: json['senha'],
+      id:
+          json['id'] is int
+              ? json['id']
+              : int.tryParse(json['id'].toString()), // ✅ protege contra string
+      nome: json['nome'] ?? '',
+      senha: json['senha'] ?? '',
       ultimaAlteracao:
           json['ultimaAlteracao'] != null
-              ? DateTime.parse(json['ultimaAlteracao'])
+              ? DateTime.tryParse(json['ultimaAlteracao'])
               : null,
+      excluido:
+          json['excluido'] is int
+              ? json['excluido']
+              : int.tryParse(json['excluido']?.toString() ?? '0') ?? 0,
     );
   }
 
@@ -29,6 +38,7 @@ class UsuarioModel {
       'nome': nome,
       'senha': senha,
       'ultimaAlteracao': ultimaAlteracao?.toIso8601String(),
+      'excluido': excluido,
     };
   }
 }

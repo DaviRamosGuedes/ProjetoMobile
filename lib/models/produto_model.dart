@@ -1,13 +1,14 @@
 class ProdutoModel {
   int? id;
   String nome;
-  String unidade; // un, cx, kg, lt, ml
+  String unidade;
   double qtdEstoque;
   double precoVenda;
-  int status; // 0 - ativo, 1 - inativo
+  int status;
   double? custo;
   String? codigoBarra;
   DateTime? ultimaAlteracao;
+  int excluido;
 
   ProdutoModel({
     this.id,
@@ -19,22 +20,27 @@ class ProdutoModel {
     this.custo,
     this.codigoBarra,
     this.ultimaAlteracao,
+    this.excluido = 0,
   });
 
   factory ProdutoModel.fromJson(Map<String, dynamic> json) {
     return ProdutoModel(
-      id: json['id'],
-      nome: json['nome'],
-      unidade: json['unidade'],
-      qtdEstoque: json['qtdEstoque'].toDouble(),
-      precoVenda: json['precoVenda'].toDouble(),
-      status: json['Status'],
-      custo: json['custo']?.toDouble(),
+      id: json['id'] is int ? json['id'] : int.tryParse(json['id'].toString()),
+      nome: json['nome'] ?? '',
+      unidade: json['unidade'] ?? '',
+      qtdEstoque: (json['qtdEstoque'] as num).toDouble(),
+      precoVenda: (json['precoVenda'] as num).toDouble(),
+      status:
+          json['status'] is int
+              ? json['status']
+              : int.tryParse(json['status'].toString()) ?? 0,
+      custo: json['custo'] != null ? (json['custo'] as num).toDouble() : null,
       codigoBarra: json['codigoBarra'],
       ultimaAlteracao:
           json['ultimaAlteracao'] != null
-              ? DateTime.parse(json['ultimaAlteracao'])
+              ? DateTime.tryParse(json['ultimaAlteracao'])
               : null,
+      excluido: json['excluido'] ?? 0,
     );
   }
 
@@ -45,10 +51,11 @@ class ProdutoModel {
       'unidade': unidade,
       'qtdEstoque': qtdEstoque,
       'precoVenda': precoVenda,
-      'Status': status,
+      'status': status,
       'custo': custo,
       'codigoBarra': codigoBarra,
       'ultimaAlteracao': ultimaAlteracao?.toIso8601String(),
+      'excluido': excluido,
     };
   }
 }

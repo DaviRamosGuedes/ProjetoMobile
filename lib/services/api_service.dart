@@ -8,11 +8,17 @@ class ApiService {
 
   Future<List<dynamic>> fetchList(String endpoint) async {
     final response = await http.get(Uri.parse('$baseUrl/$endpoint'));
+
     if (response.statusCode == 200) {
-      final json = jsonDecode(response.body);
-      return json['dados'];
+      final body = jsonDecode(response.body);
+
+      if (body is List) return body; // Ex: json-server
+      if (body is Map && body.containsKey('dados'))
+        return body['dados']; // Ex: servidor do professor
+
+      throw Exception('Formato de resposta inválido para $endpoint');
     } else {
-      throw Exception('Erro ao buscar dados de $endpoint');
+      throw Exception('Erro ${response.statusCode} em $endpoint');
     }
   }
 

@@ -25,10 +25,10 @@ class ClienteModel {
 
   factory ClienteModel.fromJson(Map<String, dynamic> json) {
     return ClienteModel(
-      id: json['id'],
-      nome: json['nome'],
-      tipo: json['tipo'],
-      cpfCnpj: json['cpfCnpj'],
+      id: json['id'] is int ? json['id'] : int.tryParse(json['id'].toString()),
+      nome: json['nome'] ?? '',
+      tipo: json['tipo'] ?? '',
+      cpfCnpj: json['cpfCnpj'] ?? '',
       email: json['email'],
       telefone: json['telefone'],
       cep: json['cep'],
@@ -40,7 +40,10 @@ class ClienteModel {
           json['ultimaAlteracao'] != null
               ? DateTime.tryParse(json['ultimaAlteracao'])
               : null,
-      excluido: json['excluido'] ?? 0,
+      excluido:
+          json['excluido'] is int
+              ? json['excluido']
+              : int.tryParse(json['excluido']?.toString() ?? '0') ?? 0,
     );
   }
 
