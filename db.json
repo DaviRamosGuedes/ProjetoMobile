@@ -1,0 +1,46 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "nome": "Maria",
+      "senha": "123",
+      "ultimaAlteracao": "2025-05-04T23:13:35Z"
+    },
+    {
+      "id": 2,
+      "nome": "Joao",
+      "senha": "456",
+      "ultimaAlteracao": "2025-05-04T23:13:35Z"
+    }
+  ],
+  "clientes": [
+    {
+      "id": 1,
+      "nome": "João da Silva",
+      "tipo": "F",
+      "cpfCnpj": "02849955094",
+      "email": "joaosilva@gmail.com",
+      "telefone": "2798761234",
+      "cep": "29165130",
+      "endereco": "Av. Central, 846",
+      "bairro": "Laranjeiras",
+      "cidade": "Serra",
+      "uf": "ES",
+      "ultimaAlteracao": "2025-05-04T23:13:35Z"
+    }
+  ],
+  "produtos": [
+    {
+      "id": 1,
+      "nome": "Coca Cola",
+      "codigoBarra": "123465789",
+      "unidade": "Un",
+      "qtdEstoque": 500.0,
+      "custo": 3.5,
+      "precoVenda": 5.0,
+      "status": 0,
+      "ultimaAlteracao": "2025-05-04T23:13:35Z"
+    }
+  ],
+  "pedidos": []
+}
