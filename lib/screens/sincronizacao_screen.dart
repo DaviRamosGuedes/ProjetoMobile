@@ -15,7 +15,7 @@ class SincronizacaoScreen extends StatefulWidget {
 }
 
 class _SincronizacaoScreenState extends State<SincronizacaoScreen> {
-  final api = ApiService('http://10.0.2.2:8080');
+  final api = ApiService('http://10.0.2.2:8080'); // Corrigido aqui
   late final SincronizacaoService syncService;
 
   final _usuarioRepo = UsuarioRepository();
@@ -51,7 +51,7 @@ class _SincronizacaoScreenState extends State<SincronizacaoScreen> {
         () => syncService.sincronizarProdutos(_produtoRepo),
         'Produtos',
       );
-      // pedidos sincronizados apenas no envio
+
       setState(
         () =>
             _status =
@@ -68,7 +68,9 @@ class _SincronizacaoScreenState extends State<SincronizacaoScreen> {
     try {
       await func();
     } catch (e) {
-      erros.putIfAbsent(entidade, () => []).add(e.toString());
+      setState(() {
+        erros.putIfAbsent(entidade, () => []).add(e.toString());
+      });
     }
   }
 

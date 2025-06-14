@@ -13,47 +13,109 @@ class SincronizacaoService {
 
   SincronizacaoService(this.api);
 
+  // ==== GET ====
+
   Future<void> sincronizarUsuarios(UsuarioRepository repo) async {
-    final dados = await api.fetchList('usuarios');
-    for (var json in dados) {
-      final usuario = UsuarioModel.fromJson(json);
-      await repo.insert(usuario);
+    try {
+      final dados = await api.fetchAll('usuarios'); // Alterado para fetchAll
+      for (var json in dados) {
+        final usuario = UsuarioModel.fromJson(json);
+        await repo.insert(usuario);
+      }
+    } catch (e) {
+      print('Erro ao sincronizar usuários: $e');
+      rethrow; // Propaga o erro para ser tratado na UI
     }
   }
 
   Future<void> sincronizarClientes(ClienteRepository repo) async {
-    final dados = await api.fetchList('clientes');
-    for (var json in dados) {
-      final cliente = ClienteModel.fromJson(json);
-      await repo.insert(cliente);
+    try {
+      final dados = await api.fetchAll('clientes'); // Alterado para fetchAll
+      for (var json in dados) {
+        final cliente = ClienteModel.fromJson(json);
+        await repo.insert(cliente);
+      }
+    } catch (e) {
+      print('Erro ao sincronizar clientes: $e');
+      rethrow;
     }
   }
 
   Future<void> sincronizarProdutos(ProdutoRepository repo) async {
-    final dados = await api.fetchList('produtos');
-    for (var json in dados) {
-      final produto = ProdutoModel.fromJson(json);
-      await repo.insert(produto);
+    try {
+      final dados = await api.fetchAll('produtos'); // Alterado para fetchAll
+      for (var json in dados) {
+        final produto = ProdutoModel.fromJson(json);
+        await repo.insert(produto);
+      }
+    } catch (e) {
+      print('Erro ao sincronizar produtos: $e');
+      rethrow;
     }
   }
 
+  // ==== POST ====
+
   Future<void> enviarUsuarios(List<UsuarioModel> usuarios) async {
-    await api.postList('usuarios', usuarios.map((u) => u.toJson()).toList());
+    try {
+      await api.postAll(
+        // Alterado para postAll
+        'usuarios',
+        usuarios.map((u) => u.toJson()).toList(),
+      );
+    } catch (e) {
+      print('Erro ao enviar usuários: $e');
+      rethrow;
+    }
   }
 
   Future<void> enviarClientes(List<ClienteModel> clientes) async {
-    await api.postList('clientes', clientes.map((c) => c.toJson()).toList());
+    try {
+      await api.postAll(
+        // Alterado para postAll
+        'clientes',
+        clientes.map((c) => c.toJson()).toList(),
+      );
+    } catch (e) {
+      print('Erro ao enviar clientes: $e');
+      rethrow;
+    }
   }
 
   Future<void> enviarProdutos(List<ProdutoModel> produtos) async {
-    await api.postList('produtos', produtos.map((p) => p.toJson()).toList());
+    try {
+      await api.postAll(
+        // Alterado para postAll
+        'produtos',
+        produtos.map((p) => p.toJson()).toList(),
+      );
+    } catch (e) {
+      print('Erro ao enviar produtos: $e');
+      rethrow;
+    }
   }
 
   Future<void> enviarPedidos(List<PedidoModel> pedidos) async {
-    await api.postList('pedidos', pedidos.map((p) => p.toJson()).toList());
+    try {
+      await api.postAll(
+        // Alterado para postAll
+        'pedidos',
+        pedidos.map((p) => p.toJson()).toList(),
+      );
+    } catch (e) {
+      print('Erro ao enviar pedidos: $e');
+      rethrow;
+    }
   }
 
+  // ==== DELETE ====
+
   Future<void> excluirRemotamente(String endpoint, int id) async {
-    await api.deleteById(endpoint, id);
+    try {
+      await api.deleteOne(endpoint, id); // Alterado para deleteOne
+    } catch (e) {
+      print('Erro ao excluir $endpoint (ID $id): $e');
+      rethrow;
+    }
   }
 }
